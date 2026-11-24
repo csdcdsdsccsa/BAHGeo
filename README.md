@@ -57,6 +57,19 @@ data/
     └── satellite/
 ```
 
+## Trained BAHGeo checkpoints
+
+Download the validation-best checkpoints for the original CVOGL splits from
+[Baidu Netdisk](https://pan.baidu.com/s/1rsNvpTN5fafq1JlESRwtPA?pwd=b4jq)
+using extraction code `b4jq`.
+
+| Task | Checkpoint filename |
+| --- | --- |
+| Drone → Satellite (`CVOGL_DroneAerial`) | `trogeo_ms_e4_amhcsfi_res_bi_hisym_crgpe_core25_outer50_naturalrng_swin_t_drone_seed2024_model_best.pth.tar` |
+| Ground → Satellite (`CVOGL_SVI`) | `trogeo_ms_e4_amhcsfi_res_bi_hisym_crgpe_corey25_corex50_outery50_outerx100_naturalrng_swin_t_svi_seed2024_model_best.pth.tar` |
+
+For evaluation, pass the checkpoint for the corresponding dataset to `train.py test --checkpoint`.
+
 ## Training and evaluation
 
 ```bash

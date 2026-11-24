@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+runs/
+data/
+*.pth
+*.pth.tar
+*.pt
+*.ckpt
+.venv/
+.pytest_cache/

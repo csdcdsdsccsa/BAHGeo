@@ -63,12 +63,9 @@ Download the validation-best checkpoints for the original CVOGL splits from
 [Baidu Netdisk](https://pan.baidu.com/s/1rsNvpTN5fafq1JlESRwtPA?pwd=b4jq)
 using extraction code `b4jq`.
 
-| Task | Checkpoint filename |
-| --- | --- |
-| Drone → Satellite (`CVOGL_DroneAerial`) | `trogeo_ms_e4_amhcsfi_res_bi_hisym_crgpe_core25_outer50_naturalrng_swin_t_drone_seed2024_model_best.pth.tar` |
-| Ground → Satellite (`CVOGL_SVI`) | `trogeo_ms_e4_amhcsfi_res_bi_hisym_crgpe_corey25_corex50_outery50_outerx100_naturalrng_swin_t_svi_seed2024_model_best.pth.tar` |
-
-For evaluation, pass the checkpoint for the corresponding dataset to `train.py test --checkpoint`.
+The share contains two checkpoints: one for Drone → Satellite
+(`CVOGL_DroneAerial`) and one for Ground → Satellite (`CVOGL_SVI`).
+Use the downloaded file for the corresponding dataset with `--checkpoint`.
 
 ## Training and evaluation
 
@@ -79,13 +76,14 @@ DATA_ROOT=/path/to/data bash scripts/run_svi.sh
 
 The scripts select checkpoints by validation Acc@0.50 and evaluate the selected checkpoint on the corresponding test split. The default configuration uses one GPU, batch size 7, 24 workers, 25 epochs, learning rate 0.0001, and seed 2024. Set `PYTHON_BIN` or `OUTPUT_DIR` to override the executable or output location. Training logs and test metrics are recorded in `metrics.jsonl` and `test_metrics.json`.
 
-To evaluate an existing checkpoint:
+To evaluate a downloaded checkpoint, set `DRONE_CHECKPOINT` or
+`SVI_CHECKPOINT` to the path of the corresponding file:
 
 ```bash
 python train.py test --dataset CVOGL_DroneAerial --data-root /path/to/data \
-  --output-dir runs/drone_eval --checkpoint /path/to/drone_model_best.pth.tar
+  --output-dir runs/drone_eval --checkpoint "$DRONE_CHECKPOINT"
 python train.py test --dataset CVOGL_SVI --data-root /path/to/data \
-  --output-dir runs/svi_eval --checkpoint /path/to/svi_model_best.pth.tar
+  --output-dir runs/svi_eval --checkpoint "$SVI_CHECKPOINT"
 ```
 
 ## Acknowledgments

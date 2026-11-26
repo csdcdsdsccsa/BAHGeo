@@ -8,7 +8,6 @@ from pathlib import Path
 import numpy as np
 import torch
 from torch.utils.data import DataLoader
-from torch.nn.modules.utils import consume_prefix_in_state_dict_if_present
 from torchvision.transforms import Compose, Normalize, ToTensor
 
 from dataset.cvogl import CVOGLFullModelDataset
@@ -145,11 +144,7 @@ def main():
     anchors = anchors_tensor(device)
     if args.command == 'test':
         checkpoint = torch.load(args.checkpoint, map_location=device, weights_only=False)
-        state_dict = checkpoint['state_dict']
-        # Earlier training runs saved the DataParallel wrapper's prefix.
-        if state_dict and all(key.startswith('module.') for key in state_dict):
-            consume_prefix_in_state_dict_if_present(state_dict, 'module.')
-        model.load_state_dict(state_dict, strict=True)
+        model.load_state_dict(checkpoint['state_dict'], strict=True)
         result = run_epoch(model, test_loader, anchors, device)
         print('test {}'.format(json.dumps(result, ensure_ascii=False)), flush=True)
         (args.output_dir / 'test_metrics.json').write_text(json.dumps(result, indent=2), encoding='utf-8')
